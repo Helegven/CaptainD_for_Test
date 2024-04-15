@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import java.util.ArrayList;
-
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -110,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
     public void StartButton(View view){
+        Log.d(TAG, "StartButton: ");
+        try {
+            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
+            new GetData().execute(url);
+
+        } catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        textView.setText("Listening..");
         speechRecognizer.startListening(intentRecognizer);
     }
 
