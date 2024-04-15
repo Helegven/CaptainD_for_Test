@@ -19,7 +19,8 @@ import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONArray;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import android.util.Log;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent intentRecognizer;
     private TextView textView;
 
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onEvent(int i, Bundle bundle) {
 
             }
-                                                });
+        });
 
 
 
@@ -118,12 +120,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (MalformedURLException e){
             e.printStackTrace();
         }
-        textView.setText("Listening..");
+        textView.setText("Слушаем..");
         speechRecognizer.startListening(intentRecognizer);
     }
 
     public void StopButton(View view){
+        textView.setText("Не слушаем=)");
         speechRecognizer.stopListening();
-
     }
 }
