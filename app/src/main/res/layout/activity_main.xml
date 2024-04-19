@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="302dp"
-        android:layout_height="196dp"
+        android:layout_width="315dp"
+        android:layout_height="139dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="sans-serif"
         android:text="@string/hello_world"
@@ -19,31 +19,45 @@
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.782"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.177" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="157dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="384dp"
-        android:onClick="StartButton"
-        android:text="@string/start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="157dp"-->
+<!--        android:layout_height="71dp"-->
+<!--        android:layout_marginStart="124dp"-->
+<!--        android:layout_marginTop="384dp"-->
+<!--        android:onClick="StartButton"-->
+<!--        android:text="@string/start"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <Button
-        android:id="@+id/button2"
+<!--    <Button-->
+<!--        android:id="@+id/button2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="160dp"-->
+<!--        android:layout_marginBottom="216dp"-->
+<!--        android:onClick="StopButton"-->
+<!--        android:text="@string/stop"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+
+    <ToggleButton
+        android:id="@+id/toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="216dp"
-        android:onClick="StopButton"
-        android:text="@string/stop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginLeft="148dp"
+        android:layout_marginTop="272dp"
+        android:onClick="onToggleClicked"
+        android:textOff="Выключено"
+        android:textOn="Включено"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

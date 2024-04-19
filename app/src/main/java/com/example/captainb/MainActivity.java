@@ -18,17 +18,22 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
+
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import android.util.Log;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
     private SpeechRecognizer speechRecognizer;
     private Intent intentRecognizer;
     private TextView textView;
-
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,21 +114,47 @@ public class MainActivity extends AppCompatActivity {
 //            return insets;
 //        });
     }
-    public void StartButton(View view){
-        Log.d(TAG, "StartButton: ");
-        try {
-            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
-            new GetData().execute(url);
 
-        } catch (MalformedURLException e){
-            e.printStackTrace();
+
+    public void onToggleClicked(View view) {
+
+        // включена ли кнопка
+        boolean on = ((ToggleButton) view).isChecked();
+        if (on) {
+            // действия если включена
+//            Toast.makeText(this, "Свет включен", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "ToggleButton: ");
+            try {
+                URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
+                new GetData().execute(url);
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            textView.setText("Listening..");
+            speechRecognizer.startListening(intentRecognizer);
+            textView.setText("stop");
+        } else {
+            // действия, если выключена
+//            Toast.makeText(this, "Свет выключен!", Toast.LENGTH_LONG).show();
+            speechRecognizer.stopListening();
         }
-        textView.setText("Listening..");
-        speechRecognizer.startListening(intentRecognizer);
     }
+//    public void StartButton(View view){
+//        Log.d(TAG, "StartButton: ");
+//        try {
+//            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
+//            new GetData().execute(url);
+//
+//        } catch (MalformedURLException e){
+//            e.printStackTrace();
+//        }
+//        textView.setText("Listening..");
+//        speechRecognizer.startListening(intentRecognizer);
+//    }
 
-    public void StopButton(View view){
-        speechRecognizer.stopListening();
-
-    }
+//    public void StopButton(View view){
+//        speechRecognizer.stopListening();
+//
+//    }
 }
