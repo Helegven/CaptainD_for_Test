@@ -17,6 +17,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -114,47 +115,33 @@ public class MainActivity extends AppCompatActivity {
 //            return insets;
 //        });
     }
+    public void StartListen(View view){
+        Log.d(TAG, "StartButton: ");
+        try {
+            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
+            new GetData().execute(url);
 
+        } catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        textView.setText("Listening..");
+        speechRecognizer.startListening(intentRecognizer);
+    }
+
+    public void StopListen(View view){
+        speechRecognizer.stopListening();
+    }
 
     public void onToggleClicked(View view) {
 
         // включена ли кнопка
         boolean on = ((ToggleButton) view).isChecked();
         if (on) {
-            // действия если включена
-//            Toast.makeText(this, "Свет включен", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "ToggleButton: ");
-            try {
-                URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
-                new GetData().execute(url);
+            StartListen(view);
 
-            } catch (MalformedURLException e){
-                e.printStackTrace();
-            }
-            textView.setText("Listening..");
-            speechRecognizer.startListening(intentRecognizer);
-            textView.setText("stop");
         } else {
-            // действия, если выключена
-//            Toast.makeText(this, "Свет выключен!", Toast.LENGTH_LONG).show();
-            speechRecognizer.stopListening();
+            StopListen(view);
         }
     }
-//    public void StartButton(View view){
-//        Log.d(TAG, "StartButton: ");
-//        try {
-//            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
-//            new GetData().execute(url);
-//
-//        } catch (MalformedURLException e){
-//            e.printStackTrace();
-//        }
-//        textView.setText("Listening..");
-//        speechRecognizer.startListening(intentRecognizer);
-//    }
 
-//    public void StopButton(View view){
-//        speechRecognizer.stopListening();
-//
-//    }
 }
