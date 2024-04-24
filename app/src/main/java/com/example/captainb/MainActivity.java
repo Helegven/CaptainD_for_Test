@@ -4,10 +4,7 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import java.io.IOException;
 import static android.Manifest.permission.RECORD_AUDIO;
 import androidx.core.app.ActivityCompat;
 
@@ -17,17 +14,22 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import android.util.Log;
 import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.InputStreamReader;
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,15 +86,48 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle bundle) {
+                textView.setText("Слушаем...");
+
                 ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String spokenText = "";
 
                 if (matches != null){
                     spokenText = matches.get(0);
-                    textView.setText(spokenText);
+
+                    String ask_text = "— " + spokenText;
+                    textView.setText(ask_text);
+
+                    Runnable runnable = new Runnable() {
+                        public void run() {
+                            try{
+
+                            String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text);
+                            String answer_text = ask_text + "\n" + "— " + http_content;
+
+                            textView.post(new Runnable() {
+                                public void run() {
+                                    textView.setText(answer_text);
+                                }
+                            });
+//
+                            }catch (IOException ex){
+                                textView.post(new Runnable() {
+                                    public void run() {
+                                        textView.setText("Ошибка IOException: " + ex.getMessage());
+                                        Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    };
+
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+
+//                    textView.setText(spokenText);
                 }
                 else {
-                    textView.setText("Not set");
+                    textView.setText("Текст не распознан");
                 }
             }
 
@@ -117,19 +152,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void StartListen(View view){
         Log.d(TAG, "StartButton: ");
-        try {
-            URL url = new URL("https://algame9-vps.roborumba.com/vector_search");
-            new GetData().execute(url);
 
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-        textView.setText("Listening..");
+        textView.setText("Слушаем..");
         speechRecognizer.startListening(intentRecognizer);
     }
 
     public void StopListen(View view){
         speechRecognizer.stopListening();
+        textView.setText("Стоп");
     }
 
     public void onToggleClicked(View view) {
@@ -139,8 +169,96 @@ public class MainActivity extends AppCompatActivity {
         if (on) {
             StartListen(view);
 
+//            String ask_text = "— " + "как дела";
+//            textView.setText(ask_text);
+//
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    try{
+//
+//                        String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", "играть");
+//                        String answer_text = ask_text + "\n" + "— " + http_content;
+//
+//                        textView.post(new Runnable() {
+//                            public void run() {
+//                                textView.setText(answer_text);
+//                            }
+//                        });
+////
+//                    }catch (IOException ex){
+//                        textView.post(new Runnable() {
+//                            public void run() {
+//                                textView.setText("Ошибка IOException: " + ex.getMessage());
+//                                Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                }
+//            };
+//
+//            Thread thread = new Thread(runnable);
+//            thread.start();
+
+
+
         } else {
             StopListen(view);
+        }
+    }
+
+    private String getContent(String path, String phrase) throws IOException {
+        BufferedReader reader=null;
+        InputStream stream = null;
+        HttpsURLConnection connection = null;
+        try {
+            URL url= new URL(path);
+            connection =(HttpsURLConnection)url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            connection.setReadTimeout(10000);
+            connection.connect();
+
+            String jsonInputString = "{\"user_id\":\"123\", \"text\":\"" + phrase + "\"}";
+
+//            String jsonInputString = "{\"user_id\":\"123\", \"text\":\"привет\"}";
+
+            try(OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            stream = connection.getInputStream();
+            reader= new BufferedReader(new InputStreamReader(stream, "utf-8"));
+            StringBuilder response=new StringBuilder();
+            String line;
+            while ((line=reader.readLine()) != null) {
+                response.append(line.trim());
+            }
+            String js = response.toString();
+
+            JSONObject jObj = new JSONObject(js);
+            Log.d(TAG, "getInputStream: " + js);
+            String answer = jObj.getJSONObject("response").getString("text");;
+
+            return(answer);
+
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+//            throw new RuntimeException(e);
+            return("error");
+
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 
