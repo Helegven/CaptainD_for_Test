@@ -14,6 +14,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+
+        ToggleButton customButton = findViewById(R.id.toggle);
 
         ActivityCompat.requestPermissions(this, new String[]{RECORD_AUDIO}, PackageManager.PERMISSION_GRANTED);
 
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             textView.post(new Runnable() {
                                 public void run() {
                                     textView.setText(answer_text);
+                                    customButton.setChecked(false);
                                 }
                             });
 //
@@ -152,14 +156,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void StartListen(View view){
         Log.d(TAG, "StartButton: ");
-
-        textView.setText("Слушаем..");
+        Toast.makeText(MainActivity.this, "Слушаем..", Toast.LENGTH_SHORT).show();
+//        textView.setText("Слушаем..");
         speechRecognizer.startListening(intentRecognizer);
     }
 
     public void StopListen(View view){
         speechRecognizer.stopListening();
-        textView.setText("Стоп");
+//        textView.setText("Стоп");
+        Toast.makeText(MainActivity.this, "Всё, не слышу", Toast.LENGTH_SHORT).show();
     }
 
     public void onToggleClicked(View view) {
@@ -261,5 +266,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }
