@@ -8,28 +8,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="157dp"-->
-<!--        android:layout_height="71dp"-->
-<!--        android:layout_marginStart="124dp"-->
-<!--        android:layout_marginTop="384dp"-->
-<!--        android:onClick="StartButton"-->
-<!--        android:text="@string/start"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="160dp"-->
-<!--        android:layout_marginBottom="216dp"-->
-<!--        android:onClick="StopButton"-->
-<!--        android:text="@string/stop"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
-
 
     <TextView
         android:id="@+id/textView"
@@ -48,8 +26,8 @@
 
     <ToggleButton
         android:id="@+id/toggle"
-        android:layout_width="132dp"
-        android:layout_height="174dp"
+        android:layout_width="66dp"
+        android:layout_height="88dp"
         android:background="@drawable/button_custom"
         android:onClick="onToggleClicked"
         android:textOff=" "
@@ -58,7 +36,59 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.675" />
+        app:layout_constraintVertical_bias="0.309" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/editTextChat"-->
+<!--        android:layout_width="309dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="text"-->
+<!--        android:text="Введите текст"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toggle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        />-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Ввод"-->
+<!--        android:onClick="sendMessage"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editTextChat"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        />-->
+
+    <RelativeLayout
+        android:id="@+id/layout_gchat_chatbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:layout_marginStart="16dp"
+            android:id="@+id/editMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/button_chat_send"
+            android:background="@android:color/transparent"
+            android:hint="Введите текст"
+            android:inputType="text"
+            android:maxLines="2"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/button_chat_send"
+            android:layout_width="84dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="#ffffff"
+            android:onClick="sendMessage"
+            android:text="Send"
+            android:textColor="#cccccc" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

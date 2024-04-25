@@ -3,6 +3,7 @@ package com.example.captainb;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -127,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Thread thread = new Thread(runnable);
                     thread.start();
-
-//                    textView.setText(spokenText);
                 }
                 else {
                     textView.setText("Текст не распознан");
@@ -146,13 +146,6 @@ public class MainActivity extends AppCompatActivity {
             }
                                                 });
 
-
-
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
     }
     public void StartListen(View view){
         Log.d(TAG, "StartButton: ");
@@ -173,44 +166,12 @@ public class MainActivity extends AppCompatActivity {
         boolean on = ((ToggleButton) view).isChecked();
         if (on) {
             StartListen(view);
-
-//            String ask_text = "— " + "как дела";
-//            textView.setText(ask_text);
-//
-//            Runnable runnable = new Runnable() {
-//                public void run() {
-//                    try{
-//
-//                        String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", "играть");
-//                        String answer_text = ask_text + "\n" + "— " + http_content;
-//
-//                        textView.post(new Runnable() {
-//                            public void run() {
-//                                textView.setText(answer_text);
-//                            }
-//                        });
-////
-//                    }catch (IOException ex){
-//                        textView.post(new Runnable() {
-//                            public void run() {
-//                                textView.setText("Ошибка IOException: " + ex.getMessage());
-//                                Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }
-//            };
-//
-//            Thread thread = new Thread(runnable);
-//            thread.start();
-
-
-
         } else {
             StopListen(view);
         }
     }
 
+    @NonNull
     private String getContent(String path, String phrase) throws IOException {
         BufferedReader reader=null;
         InputStream stream = null;
@@ -222,12 +183,10 @@ public class MainActivity extends AppCompatActivity {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
-            connection.setReadTimeout(10000);
+            connection.setReadTimeout(1000);
             connection.connect();
 
             String jsonInputString = "{\"user_id\":\"123\", \"text\":\"" + phrase + "\"}";
-
-//            String jsonInputString = "{\"user_id\":\"123\", \"text\":\"привет\"}";
 
             try(OutputStream os = connection.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
@@ -265,5 +224,39 @@ public class MainActivity extends AppCompatActivity {
                 connection.disconnect();
             }
         }
+    }
+
+    public void sendMessage(View view) {
+        EditText editText = findViewById(R.id.editMessage);
+        String userMessage;
+        userMessage = String.valueOf(editText.getText());
+
+        textView.setText(userMessage);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try{
+
+                    String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage);
+                    String answer_text = userMessage + "\n" + "— " + http_content;
+
+                    textView.post(new Runnable() {
+                        public void run() {
+                            textView.setText(answer_text);
+                        }
+                    });
+//
+                }catch (IOException ex){
+                    textView.post(new Runnable() {
+                        public void run() {
+                            textView.setText("Ошибка IOException: " + ex.getMessage());
+                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }
