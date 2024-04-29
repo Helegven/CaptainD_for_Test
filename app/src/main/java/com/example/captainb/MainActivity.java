@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             try{
 
-                            String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text, user_id);
+                            String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text, user_id);
                             String answer_text = ask_text + "\n" + "— " + http_content;
 
                             textView.post(new Runnable() {
@@ -173,61 +173,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @NonNull
-    private String getContent(String path, String phrase, String user_id) throws IOException {
-        BufferedReader reader=null;
-        InputStream stream = null;
-        HttpsURLConnection connection = null;
-        try {
-            URL url= new URL(path);
-            connection =(HttpsURLConnection)url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Accept", "application/json");
-            connection.setDoOutput(true);
-            connection.setReadTimeout(1000);
-            connection.connect();
-
-            String jsonInputString = "{\"user_id\":\"" + user_id + "\", \"text\":\"" + phrase + "\"}";
-
-            try(OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-
-            stream = connection.getInputStream();
-            reader= new BufferedReader(new InputStreamReader(stream, "utf-8"));
-            StringBuilder response=new StringBuilder();
-            String line;
-            while ((line=reader.readLine()) != null) {
-                response.append(line.trim());
-            }
-            String js = response.toString();
-
-            JSONObject jObj = new JSONObject(js);
-            Log.d(TAG, "getInputStream: " + js);
-            String answer = jObj.getJSONObject("response").getString("text");;
-
-            return(answer);
-
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-//            throw new RuntimeException(e);
-            return("error");
-
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-            if (stream != null) {
-                stream.close();
-            }
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
-
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.editMessage);
         String userMessage = String.valueOf(editText.getText());
@@ -239,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try{
 
-                    String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
+                    String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
                     String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
 
                     textView.post(new Runnable() {

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class UuidFactory {
 
-    protected static final String PREFS_FILE = "user_id.xml";
+    protected static final String PREFS_FILE = "captainb_user_id.xml";
     protected static final String PREFS_USER_ID = "user_id";
 
     public String getUUID(Context context) {
