@@ -15,7 +15,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private static final String TAG = "MainActivity";
 
+    UuidFactory uuidFactory = new UuidFactory();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String spokenText = "";
+                String user_id = "";
+//                uuidFactory.getUUID(this);
 
                 if (matches != null){
                     spokenText = matches.get(0);
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             try{
 
-                            String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text);
+                            String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text, user_id);
                             String answer_text = ask_text + "\n" + "— " + http_content;
 
                             textView.post(new Runnable() {
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private String getContent(String path, String phrase) throws IOException {
+    private String getContent(String path, String phrase, String user_id) throws IOException {
         BufferedReader reader=null;
         InputStream stream = null;
         HttpsURLConnection connection = null;
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
             connection.setReadTimeout(1000);
             connection.connect();
 
-            String jsonInputString = "{\"user_id\":\"123\", \"text\":\"" + phrase + "\"}";
+            String jsonInputString = "{\"user_id\":\"" + user_id + "\", \"text\":\"" + phrase + "\"}";
 
             try(OutputStream os = connection.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
@@ -228,16 +230,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.editMessage);
-        String userMessage;
-        userMessage = String.valueOf(editText.getText());
+        String userMessage = String.valueOf(editText.getText());
+        String uuid = uuidFactory.getUUID(this);
 
-        textView.setText(userMessage);
+
+        textView.setText(userMessage + uuid);
         Runnable runnable = new Runnable() {
             public void run() {
                 try{
 
-                    String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage);
-                    String answer_text = userMessage + "\n" + "— " + http_content;
+                    String http_content = getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
+                    String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
 
                     textView.post(new Runnable() {
                         public void run() {
