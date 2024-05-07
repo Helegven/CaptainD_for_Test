@@ -1,5 +1,6 @@
 package com.example.captainb;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private Intent intentRecognizer;
     private TextView textView;
     private static final String TAG = "MainActivity";
+    private AnimationDrawable isAnimation;
+    private ImageView img;
+
+
+    // A boolean variable to keep track of the animation
+    // Статус который отслеживает, работает анимация или нет.
+    private boolean isStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         intentRecognizer.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.EXTRA_LANGUAGE_DETECTION_ALLOWED_LANGUAGES);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
+        img = findViewById(R.id.img);
+        img.setImageResource(R.drawable.animation_button_on);
+        isAnimation = (AnimationDrawable)img.getDrawable();
 
         speechRecognizer.setRecognitionListener(new RecognitionListener(){
             @Override
@@ -113,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     textView.setText(answer_text);
                                     customButton.setChecked(false);
+
                                 }
                             });
 //
@@ -152,12 +166,18 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "Слушаем..", Toast.LENGTH_SHORT).show();
 //        textView.setText("Слушаем..");
         speechRecognizer.startListening(intentRecognizer);
+        img.setVisibility(View.VISIBLE);
+        isAnimation.start();
+        isStart = true;
     }
 
     public void StopListen(View view){
         speechRecognizer.stopListening();
 //        textView.setText("Стоп");
         Toast.makeText(MainActivity.this, "Всё, не слышу", Toast.LENGTH_SHORT).show();
+        img.setVisibility(View.GONE);
+        isAnimation.stop();
+        isStart = false;
     }
 
     public void onToggleClicked(View view) {
@@ -224,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
                 connection.disconnect();
             }
         }
+    }
+    public void onHelpClicked (){
+
     }
 
     public void sendMessage(View view) {

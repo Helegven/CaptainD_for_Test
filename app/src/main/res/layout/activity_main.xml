@@ -8,6 +8,30 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="345dp"
+        android:layout_height="298dp"
+        android:layout_marginStart="32dp"
+        android:layout_weight="1"
+        android:src="@drawable/animation_button_on"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.93" />
+
+    <Button
+        android:id="@+id/buttonHelp"
+        android:layout_width="81dp"
+        android:layout_height="89dp"
+        android:layout_marginStart="328dp"
+        android:layout_marginBottom="116dp"
+        android:onClick="onHelpClicked"
+        android:text="А как?"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -38,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.309" />
 
-<!--    <EditText-->
+    <!--    <EditText-->
 <!--        android:id="@+id/editTextChat"-->
 <!--        android:layout_width="309dp"-->
 <!--        android:layout_height="wrap_content"-->
@@ -58,6 +82,8 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/editTextChat"-->
 <!--        app:layout_constraintLeft_toLeftOf="parent"-->
 <!--        />-->
+
+
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
