@@ -2,5 +2,5 @@
     <string name="app_name">Captain b</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Добро пожаловать в Капитан Банальность. Скажи что-нибудь чтобы начать игру!</string>
 </resources>

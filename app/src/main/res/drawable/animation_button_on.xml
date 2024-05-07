@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- creation of animation list-->
+    <item
+        android:drawable="@drawable/button_on0"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on1"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on2"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on3"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on4"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on5"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on6"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on7"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on8"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on9"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on10"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on11"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on12"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on13"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on14"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on15"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on16"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on17"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on18"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on19"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on20"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on21"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on22"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on23"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on24"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on25"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on26"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on27"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on28"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/button_on29"
+        android:duration="100" />
+
+
+
+</animation-list>
