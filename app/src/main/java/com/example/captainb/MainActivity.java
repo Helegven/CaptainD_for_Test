@@ -17,6 +17,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private AnimationDrawable isAnimation;
     private ImageView img;
+    private ImageView customButton;
 
 
     // A boolean variable to keep track of the animation
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
-        ToggleButton customButton = findViewById(R.id.toggle);
+        customButton = findViewById(R.id.toggle);
 
         ActivityCompat.requestPermissions(this, new String[]{RECORD_AUDIO}, PackageManager.PERMISSION_GRANTED);
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                             textView.post(new Runnable() {
                                 public void run() {
                                     textView.setText(answer_text);
-                                    customButton.setChecked(false);
+                                    customButton.setVisibility(View.VISIBLE);
                                 }
                             });
 //
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "Слушаем..", Toast.LENGTH_SHORT).show();
 //        textView.setText("Слушаем..");
         speechRecognizer.startListening(intentRecognizer);
+        customButton.setVisibility(View.GONE);
         img.setVisibility(View.VISIBLE);
         isAnimation.start();
         isStart = true;
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 //        textView.setText("Стоп");
         Toast.makeText(MainActivity.this, "Всё, не слышу", Toast.LENGTH_SHORT).show();
         img.setVisibility(View.GONE);
+        customButton.setVisibility(View.VISIBLE);
         isAnimation.stop();
         isStart = false;
     }
