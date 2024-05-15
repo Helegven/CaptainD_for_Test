@@ -42,7 +42,6 @@
         android:layout_width="100dp"
         android:layout_height="93dp"
         android:onClick="StopListen"
-        android:rotation="20"
         android:scaleType="centerCrop"
         android:src="@drawable/animation_button_on"
         android:visibility="invisible"
