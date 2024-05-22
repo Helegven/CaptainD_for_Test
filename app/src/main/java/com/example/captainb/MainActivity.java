@@ -2,6 +2,7 @@ package com.example.captainb;
 
 import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private SpeechRecognizer speechRecognizer;
     private Intent intentRecognizer;
     private TextView textView;
+    private TextView textViewUser;
     private static final String TAG = "MainActivity";
     private AnimationDrawable isAnimation;
     private ImageView img;
@@ -57,11 +59,15 @@ public class MainActivity extends AppCompatActivity {
     UuidFactory uuidFactory = new UuidFactory();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MediaPlayer them = MediaPlayer.create(this, R.raw.them01);
+        them.start();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+
+        textViewUser = findViewById(R.id.textViewUser);
 
         customButton = findViewById(R.id.toggle);
 
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle bundle) {
-                textView.setText("Слушаем...");
+//                textView.setText("Слушаем...");
 
                 ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String spokenText = "";
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     spokenText = matches.get(0);
 
                     String ask_text = "— " + spokenText;
-                    textView.setText(ask_text);
+                    textViewUser.setText(ask_text);
 
                     Runnable runnable = new Runnable() {
                         public void run() {

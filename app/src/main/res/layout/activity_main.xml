@@ -8,60 +8,21 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/buttonHelp"
-        android:layout_width="81dp"
-        android:layout_height="89dp"
-        android:layout_marginStart="328dp"
-        android:layout_marginBottom="116dp"
-        android:onClick="HelpButton"
-        android:text="А как?"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="309dp"
-        android:layout_height="386dp"
-        android:layout_marginTop="56dp"
-        android:background="#79D6C8"
+        android:layout_width="350dp"
+        android:layout_height="144dp"
+        android:layout_marginTop="40dp"
+        android:background="#FFFFFF"
         android:fontFamily="sans-serif"
         android:text="@string/hello_world"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/img"
-        android:layout_width="100dp"
-        android:layout_height="93dp"
-        android:onClick="StopListen"
-        android:scaleType="centerCrop"
-        android:src="@drawable/animation_button_on"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonHelp"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.291" />
-
-    <ImageButton
-        android:id="@+id/toggle"
-        android:layout_width="66dp"
-        android:layout_height="88dp"
-        android:background="@drawable/button_off"
-        android:onClick="StartListen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.309" />
 
     <!--    <EditText-->
 <!--        android:id="@+id/editTextChat"-->
@@ -85,36 +46,94 @@
 <!--        />-->
 
 
+    <TextView
+        android:id="@+id/textViewUser"
+        android:layout_width="352dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="224dp"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif"
+        android:text=""
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/img"
+        android:layout_width="100dp"
+        android:layout_height="93dp"
+        android:onClick="StopListen"
+        android:scaleType="centerCrop"
+        android:src="@drawable/animation_button_on"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.441" />
+
+    <ImageButton
+        android:id="@+id/toggle"
+        android:layout_width="66dp"
+        android:layout_height="88dp"
+        android:background="@drawable/button_off"
+        android:onClick="StartListen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.447" />
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="412dp"
+        android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:layout_marginStart="16dp"
-            android:id="@+id/editMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/button_chat_send"
-            android:background="@android:color/transparent"
-            android:hint="Введите текст"
-            android:inputType="text"
-            android:maxLines="2"
-            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/button_chat_send"
             android:layout_width="84dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="3dp"
             android:background="#ffffff"
             android:onClick="sendMessage"
             android:text="Send"
             android:textColor="#cccccc" />
+
+        <Button
+            android:id="@+id/buttonHelp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:onClick="HelpButton"
+            android:text="?"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editMessage"
+            android:layout_width="226dp"
+            android:layout_height="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toStartOf="@+id/button_chat_send"
+            android:layout_toEndOf="@+id/buttonHelp"
+            android:background="@android:color/transparent"
+            android:hint="Введите текст"
+            android:inputType="text"
+            android:maxLines="2"
+            tools:ignore="Autofill" />
 
     </RelativeLayout>
 
