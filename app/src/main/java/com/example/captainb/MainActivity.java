@@ -1,10 +1,12 @@
 package com.example.captainb;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                                     customButton.setVisibility(View.VISIBLE);
                                 }
                             });
-//
+
                             }catch (IOException ex){
                                 textView.post(new Runnable() {
                                     public void run() {
@@ -186,15 +188,8 @@ public class MainActivity extends AppCompatActivity {
         isStart = false;
     }
 
-    public void onToggleClicked(View view) {
-
-        // включена ли кнопка
-        boolean on = ((ToggleButton) view).isChecked();
-        if (on) {
-            StartListen(view);
-        } else {
-            StopListen(view);
-        }
+    public void HelpButton(View view){
+        onHelpClicked( "Не понимаешь?");
     }
 
     public void sendMessage(View view) {
@@ -231,4 +226,25 @@ public class MainActivity extends AppCompatActivity {
         Thread thread = new Thread(runnable);
         thread.start();
     }
+    public void onHelpClicked(String text){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Правила игры")
+                .setMessage("Тут примерный текст")
+                .setCancelable(true)
+                .setPositiveButton("Полный вперёд!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "Крысы сухопутной ответ!", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog window = builder.create();
+        window.show();
+    };
 }

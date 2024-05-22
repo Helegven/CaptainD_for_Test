@@ -8,15 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-
     <Button
         android:id="@+id/buttonHelp"
         android:layout_width="81dp"
         android:layout_height="89dp"
         android:layout_marginStart="328dp"
         android:layout_marginBottom="116dp"
-        android:onClick="onHelpClicked"
+        android:onClick="HelpButton"
         android:text="А как?"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +24,7 @@
         android:id="@+id/textView"
         android:layout_width="309dp"
         android:layout_height="386dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="56dp"
         android:background="#79D6C8"
         android:fontFamily="sans-serif"
         android:text="@string/hello_world"
