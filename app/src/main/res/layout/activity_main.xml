@@ -162,7 +162,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="91dp"
             android:text="Играть с капитаном"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            android:onClick="EventButton"/>
 
         <Button
             android:id="@+id/choiseButton3"
@@ -171,7 +172,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="25dp"
             android:text="Играть одному"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            android:onClick="EventButton"/>
 
         <Button
             android:id="@+id/choiseButton4"
@@ -182,7 +184,8 @@
             android:layout_marginEnd="76dp"
             android:layout_marginBottom="23dp"
             android:text="Играть компанией"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            android:onClick="EventButton"/>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.Guideline

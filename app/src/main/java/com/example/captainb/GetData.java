@@ -18,7 +18,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 public class GetData {
-
+    //Класс для тестирования прихода от апи
     public static HashMap testMac (){
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
         map.put("Серега", Arrays.asList(21));

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity  {
         //Пользовательское окно вывода информации
         textViewUser = findViewById(R.id.textViewUser);
 
-        //Отвечает за микрофон
+        //Отвечает за активацию микрофона
         micButton = findViewById(R.id.micButton);
 
         ActivityCompat.requestPermissions(this, new String[]{RECORD_AUDIO}, PackageManager.PERMISSION_GRANTED);
@@ -125,8 +125,6 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onResults(Bundle bundle) {
-//                textView.setText("Слушаем...");
-
                 ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String spokenText = "";
                 String user_id = "";
@@ -149,8 +147,6 @@ public class MainActivity extends AppCompatActivity  {
                                 public void run() {
                                     textView.setText(answer_text);
                                     micButton.setVisibility(View.VISIBLE);
-//                                    Toast.makeText(MainActivity.this, choiseButton1.getText(), Toast.LENGTH_SHORT).show();
-
                                 }
                             });
 
@@ -188,7 +184,6 @@ public class MainActivity extends AppCompatActivity  {
     public void StartListen(View view){
         Log.d(TAG, "StartButton: ");
         Toast.makeText(MainActivity.this, "Слушаем..", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(MainActivity.this, choiseButton1.getText(), Toast.LENGTH_SHORT).show();
         speechRecognizer.startListening(intentRecognizer);
         micButton.setVisibility(View.GONE);
         img.setVisibility(View.VISIBLE);
@@ -271,11 +266,20 @@ public class MainActivity extends AppCompatActivity  {
         AlertDialog window = builder.create();
         window.show();
     };
+    // Класс для маршрутизации клавиш choiseButton
     public void EventButton(View view){
         Button but = (Button) view;
-        if(but.getText() ==  "Как играть?"){
-            System.out.println(but);
+        if(but.getText().equals("Как играть?")){
             onHelpClicked();
+        }else if(but.getText().equals("Играть с капитаном")){
+            // Пример вызова для работы с API
+            String textForButton = GetData.testMac().get("Николай").toString();
+            but.setText(textForButton);
+
+        }else if(but.getText().equals("Играть одному")){
+
+        }else if(but.getText().equals("Играть компанией")){
+
         };
     }
 }
