@@ -221,16 +221,8 @@ public class MainActivity extends AppCompatActivity  {
                     textView.post(new Runnable() {
                         public void run() {
                             textView.setText(answer_text);
-
-//                            String textForButton = GetData.testMac().get("Серега").toString();
-//                            choiseButton1.setText(textForButton);
                         }
                     });
-//                    ArrayList listForButton = GetData.testMac().get("Николай");
-//                    for (int i = 0; i < array.length; i++) {
-//                        // Код, который будет выполнен для каждого элемента
-//                        System.out.println(array[i]);
-//                    }
                 }catch (IOException ex){
                     textView.post(new Runnable() {
                         public void run() {
@@ -282,4 +274,14 @@ public class MainActivity extends AppCompatActivity  {
 
         };
     }
+//    public void ConnectingAPI(String str){
+//        String spokenText = "";
+//        String user_id = "";
+//        if (str != null){
+//            spokenText = str;
+//            String ask_text = "— " + spokenText;
+//            String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
+//            String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
+//        };
+//    };
 }
