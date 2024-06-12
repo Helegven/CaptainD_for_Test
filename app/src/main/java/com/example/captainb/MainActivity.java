@@ -38,9 +38,13 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
+
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainActivity extends AppCompatActivity {
+import android.view.View.OnClickListener;
+
+public class MainActivity extends AppCompatActivity  {
 
     private SpeechRecognizer speechRecognizer;
     private Intent intentRecognizer;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private AnimationDrawable isAnimation;
     private ImageView img;
-    private ImageView customButton;
+    private Button micButton;
 
 
     // A boolean variable to keep track of the animation
@@ -59,17 +63,22 @@ public class MainActivity extends AppCompatActivity {
     UuidFactory uuidFactory = new UuidFactory();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Два вызова снизу отвечает за запуск фоновой музки при старте приложения.
         MediaPlayer them = MediaPlayer.create(this, R.raw.them01);
         them.start();
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        //Поле ответов капитана
         textView = findViewById(R.id.textView);
 
+        //Пользовательское окно вывода информации
         textViewUser = findViewById(R.id.textViewUser);
 
-        customButton = findViewById(R.id.toggle);
+        //Отвечает за микрофон
+        micButton = findViewById(R.id.micButton);
 
         ActivityCompat.requestPermissions(this, new String[]{RECORD_AUDIO}, PackageManager.PERMISSION_GRANTED);
 
@@ -79,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 RecognizerIntent.EXTRA_LANGUAGE_DETECTION_ALLOWED_LANGUAGES);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
 
+        // Анимация "Спинера" , при нажатой клавеше микрофона.
         img = findViewById(R.id.img);
         img.setImageResource(R.drawable.animation_button_on);
         isAnimation = (AnimationDrawable)img.getDrawable();
@@ -138,7 +148,9 @@ public class MainActivity extends AppCompatActivity {
                             textView.post(new Runnable() {
                                 public void run() {
                                     textView.setText(answer_text);
-                                    customButton.setVisibility(View.VISIBLE);
+                                    micButton.setVisibility(View.VISIBLE);
+//                                    Toast.makeText(MainActivity.this, choiseButton1.getText(), Toast.LENGTH_SHORT).show();
+
                                 }
                             });
 
@@ -176,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
     public void StartListen(View view){
         Log.d(TAG, "StartButton: ");
         Toast.makeText(MainActivity.this, "Слушаем..", Toast.LENGTH_SHORT).show();
-//        textView.setText("Слушаем..");
+//        Toast.makeText(MainActivity.this, choiseButton1.getText(), Toast.LENGTH_SHORT).show();
         speechRecognizer.startListening(intentRecognizer);
-        customButton.setVisibility(View.GONE);
+        micButton.setVisibility(View.GONE);
         img.setVisibility(View.VISIBLE);
         isAnimation.start();
         isStart = true;
@@ -186,16 +198,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void StopListen(View view){
         speechRecognizer.stopListening();
-//        textView.setText("Стоп");
         Toast.makeText(MainActivity.this, "Всё, не слышу", Toast.LENGTH_SHORT).show();
         img.setVisibility(View.GONE);
-        customButton.setVisibility(View.VISIBLE);
+        micButton.setVisibility(View.VISIBLE);
         isAnimation.stop();
         isStart = false;
     }
 
     public void HelpButton(View view){
-        onHelpClicked( "Не понимаешь?");
+        onHelpClicked();
     }
 
     public void sendMessage(View view) {
@@ -215,9 +226,16 @@ public class MainActivity extends AppCompatActivity {
                     textView.post(new Runnable() {
                         public void run() {
                             textView.setText(answer_text);
+
+//                            String textForButton = GetData.testMac().get("Серега").toString();
+//                            choiseButton1.setText(textForButton);
                         }
                     });
-//
+//                    ArrayList listForButton = GetData.testMac().get("Николай");
+//                    for (int i = 0; i < array.length; i++) {
+//                        // Код, который будет выполнен для каждого элемента
+//                        System.out.println(array[i]);
+//                    }
                 }catch (IOException ex){
                     textView.post(new Runnable() {
                         public void run() {
@@ -232,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
         Thread thread = new Thread(runnable);
         thread.start();
     }
-    public void onHelpClicked(String text){
+    public void onHelpClicked(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Правила игры")
                 .setMessage("Тут примерный текст")
@@ -253,4 +271,11 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog window = builder.create();
         window.show();
     };
+    public void EventButton(View view){
+        Button but = (Button) view;
+        if(but.getText() ==  "Как играть?"){
+            System.out.println(but);
+            onHelpClicked();
+        };
+    }
 }

@@ -11,10 +11,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 
 public class GetData {
 
+    public static HashMap testMac (){
+        HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+        map.put("Серега", Arrays.asList(21));
+        map.put("Николай", Arrays.asList(22,33,45,15));
+        map.put("Иван Петрович", Arrays.asList(48));
+
+        return map;
+    }
     private static final String TAG = "GetData";
     @NonNull
     public static String getContent(String path, String phrase, String user_id) throws IOException {

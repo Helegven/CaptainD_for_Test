@@ -8,57 +8,59 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextChat"-->
+    <!--        android:layout_width="309dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="text"-->
+    <!--        android:text="Введите текст"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/toggle"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        android:layout_marginTop="60dp"-->
+    <!--        />-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Ввод"-->
+    <!--        android:onClick="sendMessage"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/editTextChat"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        />-->
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="350dp"
         android:layout_height="144dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:background="#FFFFFF"
         android:fontFamily="sans-serif"
-        android:text="@string/hello_world"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <EditText-->
-<!--        android:id="@+id/editTextChat"-->
-<!--        android:layout_width="309dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="text"-->
-<!--        android:text="Введите текст"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toggle"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:layout_marginTop="60dp"-->
-<!--        />-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Ввод"-->
-<!--        android:onClick="sendMessage"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/editTextChat"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        />-->
-
-
-    <TextView
-        android:id="@+id/textViewUser"
-        android:layout_width="352dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="224dp"
-        android:background="#FFFFFF"
-        android:fontFamily="sans-serif"
+        android:scrollbars="vertical"
         android:text=""
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewUser"
+        android:layout_width="352dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="216dp"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif"
+        android:scrollbars="vertical"
+        android:text="@string/hello_world"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.771"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,23 +74,21 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintVertical_bias="0.773" />
 
-    <ImageButton
-        android:id="@+id/toggle"
-        android:layout_width="66dp"
-        android:layout_height="88dp"
-        android:background="@drawable/button_off"
+    <Button
+        android:id="@+id/micButton"
+        android:layout_width="56dp"
+        android:layout_height="62dp"
         android:onClick="StartListen"
+        app:icon="@mipmap/mic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.447" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
@@ -96,26 +96,26 @@
         android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent">
+
 
         <Button
             android:id="@+id/button_chat_send"
-            android:layout_width="84dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="3dp"
-            android:background="#ffffff"
+            android:layout_marginEnd="12dp"
             android:onClick="sendMessage"
-            android:text="Send"
-            android:textColor="#cccccc" />
+            app:icon="@mipmap/keyboard" />
 
         <Button
             android:id="@+id/buttonHelp"
-            android:layout_width="65dp"
+            android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:onClick="HelpButton"
-            android:text="?"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:icon="@mipmap/question_mar" />
 
         <EditText
             android:id="@+id/editMessage"
@@ -136,5 +136,60 @@
             tools:ignore="Autofill" />
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/forChoiseButtons"
+        android:layout_width="420dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="208dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/choiseButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Как играть?"
+            android:visibility="visible"
+            android:onClick="EventButton"/>
+
+        <Button
+            android:id="@+id/choiseButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="91dp"
+            android:text="Играть с капитаном"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/choiseButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:text="Играть одному"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/choiseButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="76dp"
+            android:layout_marginBottom="23dp"
+            android:text="Играть компанией"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="-103dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
