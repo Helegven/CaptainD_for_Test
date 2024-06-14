@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity  {
             public void onEvent(int i, Bundle bundle) {
 
             }
-                                                });
+    });
 
     }
     public void StartListen(View view){
@@ -207,17 +207,17 @@ public class MainActivity extends AppCompatActivity  {
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.editMessage);
         String userMessage = String.valueOf(editText.getText());
-        String uuid = uuidFactory.getUUID(this);
+//        String uuid = uuidFactory.getUUID(this);
+        String uuid ="";
 
-
-        textView.setText(userMessage + uuid);
+        textViewUser.setText(userMessage + uuid);
         Runnable runnable = new Runnable() {
             public void run() {
                 try{
-
+//                    String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
                     String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
-                    String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
-
+//                    String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
+                    String answer_text = userMessage + "\n" + "— " + http_content;
                     textView.post(new Runnable() {
                         public void run() {
                             textView.setText(answer_text);
@@ -261,27 +261,38 @@ public class MainActivity extends AppCompatActivity  {
     // Класс для маршрутизации клавиш choiseButton
     public void EventButton(View view){
         Button but = (Button) view;
-        if(but.getText().equals("Как играть?")){
-            onHelpClicked();
-        }else if(but.getText().equals("Играть с капитаном")){
-            // Пример вызова для работы с API
-            String textForButton = GetData.testMac().get("Николай").toString();
-            but.setText(textForButton);
+        if (ConnectingAPI(but.getText()) == true){
+            but.setVisibility(View.GONE);
+        }
 
-        }else if(but.getText().equals("Играть одному")){
+    };
+    // Отправляет запрос в АПИ согласно текстовом полю - дальше следует добавить user_id
+    public boolean ConnectingAPI(CharSequence str){
+        String text = (String) str;
+        String user_id = "";
+        if (str != null) {
+            String spokenText = text;
+            String ask_text = "— " + spokenText;
+            textViewUser.setText(ask_text);
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    try {
+                        String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text, user_id);
+                        String answer_text = "— " + http_content;
+                        textView.post(new Runnable() {
+                            public void run() {
+                                textView.setText(answer_text);
+                            }
+                        });
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    };
+                };
 
-        }else if(but.getText().equals("Играть компанией")){
-
+            };
+        Thread thread = new Thread(runnable);
+        thread.start();
         };
-    }
-//    public void ConnectingAPI(String str){
-//        String spokenText = "";
-//        String user_id = "";
-//        if (str != null){
-//            spokenText = str;
-//            String ask_text = "— " + spokenText;
-//            String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
-//            String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
-//        };
-//    };
+        return true;
+    };
 }
