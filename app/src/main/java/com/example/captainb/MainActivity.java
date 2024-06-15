@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -73,9 +74,11 @@ public class MainActivity extends AppCompatActivity  {
 
         //Поле ответов капитана
         textView = findViewById(R.id.textView);
+        textView.setMovementMethod(new ScrollingMovementMethod());
 
         //Пользовательское окно вывода информации
         textViewUser = findViewById(R.id.textViewUser);
+        textViewUser.setMovementMethod(new ScrollingMovementMethod());
 
         //Отвечает за активацию микрофона
         micButton = findViewById(R.id.micButton);

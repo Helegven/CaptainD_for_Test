@@ -5,36 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:elevation="@dimen/cardview_compat_inset_shadow"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/editTextChat"-->
-    <!--        android:layout_width="309dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:ems="10"-->
-    <!--        android:inputType="text"-->
-    <!--        android:text="Введите текст"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/toggle"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        android:layout_marginTop="60dp"-->
-    <!--        />-->
-    <!--    <Button-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Ввод"-->
-    <!--        android:onClick="sendMessage"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/editTextChat"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        />-->
-
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="350dp"
-        android:layout_height="144dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="356dp"
+        android:layout_height="261dp"
         android:background="#FFFFFF"
         android:fontFamily="sans-serif"
         android:scrollbars="vertical"
@@ -42,16 +21,17 @@
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.056" />
 
     <TextView
         android:id="@+id/textViewUser"
         android:layout_width="352dp"
         android:layout_height="95dp"
-        android:layout_marginTop="216dp"
         android:background="#FFFFFF"
         android:fontFamily="sans-serif"
         android:scrollbars="vertical"
@@ -59,10 +39,12 @@
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
+        app:layout_constraintHorizontal_bias="0.728"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.421" />
 
     <ImageButton
         android:id="@+id/img"
@@ -80,8 +62,8 @@
 
     <Button
         android:id="@+id/micButton"
-        android:layout_width="56dp"
-        android:layout_height="62dp"
+        android:layout_width="65dp"
+        android:layout_height="68dp"
         android:onClick="StartListen"
         app:icon="@mipmap/mic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -137,56 +119,52 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/forChoiseButtons"
-        android:layout_width="420dp"
-        android:layout_height="140dp"
-        android:layout_marginBottom="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="406dp"
+        android:layout_height="177dp"
+        android:layout_marginTop="28dp"
+        app:constraint_referenced_ids="choiseButton1,choiseButton2, choiseButton3, choiseButton4"
+        app:flow_horizontalGap="8dp"
+        app:flow_maxElementsWrap="2"
+        app:flow_verticalGap="8dp"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@+id/img"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUser" />
 
-        <Button
-            android:id="@+id/choiseButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Как играть?"
-            android:visibility="visible"
-            android:onClick="EventButton"/>
+    <Button
+        android:id="@+id/choiseButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="EventButton"
+        android:text="Как играть?"
+        android:visibility="visible" />
 
-        <Button
-            android:id="@+id/choiseButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="91dp"
-            android:text="Играть с капитаном"
-            android:visibility="visible"
-            android:onClick="EventButton"/>
+    <Button
+        android:id="@+id/choiseButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="EventButton"
+        android:text="Играть с капитаном"
+        android:visibility="visible" />
 
-        <Button
-            android:id="@+id/choiseButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
-            android:text="Играть одному"
-            android:visibility="visible"
-            android:onClick="EventButton"/>
+    <Button
+        android:id="@+id/choiseButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="EventButton"
+        android:text="Играть одному"
+        android:visibility="visible" />
 
-        <Button
-            android:id="@+id/choiseButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="76dp"
-            android:layout_marginBottom="23dp"
-            android:text="Играть компанией"
-            android:visibility="visible"
-            android:onClick="EventButton"/>
-    </RelativeLayout>
+    <Button
+        android:id="@+id/choiseButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="EventButton"
+        android:text="Играть компанией"
+        android:visibility="visible" />
+    />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
