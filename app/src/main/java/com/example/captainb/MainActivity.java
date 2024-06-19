@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.util.Log;
 import java.net.URL;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity  {
     private AnimationDrawable isAnimation;
     private ImageView img;
     private Button micButton;
-
+    public Button choiseButton1, choiseButton2, choiseButton3, choiseButton4;
 
     // A boolean variable to keep track of the animation
     // Статус который отслеживает, работает анимация или нет.
@@ -297,5 +298,12 @@ public class MainActivity extends AppCompatActivity  {
         thread.start();
         };
         return true;
+    };
+    //Метод для установки новвых параметров для choiseButton
+    public void SetNewChoise(String[] ButtonsText ){
+        choiseButton1.setText(ButtonsText[0]);
+        choiseButton2.setText(ButtonsText[1]);
+        choiseButton3.setText(ButtonsText[2]);
+        choiseButton4.setText(ButtonsText[3]);
     };
 }
