@@ -1,5 +1,6 @@
 package com.example.captainb;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import static android.Manifest.permission.RECORD_AUDIO;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
@@ -22,6 +25,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -46,23 +51,27 @@ import javax.net.ssl.HttpsURLConnection;
 
 import android.view.View.OnClickListener;
 
+import com.github.library.bubbleview.BubbleTextView;
+
 public class MainActivity extends AppCompatActivity  {
 
     private SpeechRecognizer speechRecognizer;
     private Intent intentRecognizer;
-    private TextView textView;
-    private TextView textViewUser;
+    private BubbleTextView textView;
+    private BubbleTextView textViewUser;
     private static final String TAG = "MainActivity";
     private AnimationDrawable isAnimation;
     private ImageView img;
     private Button micButton;
     public Button choiseButton1, choiseButton2, choiseButton3, choiseButton4;
+    private ConstraintLayout activity_main;
 
     // A boolean variable to keep track of the animation
     // Статус который отслеживает, работает анимация или нет.
     private boolean isStart = false;
 
     UuidFactory uuidFactory = new UuidFactory();
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Два вызова снизу отвечает за запуск фоновой музки при старте приложения.
@@ -74,12 +83,10 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         //Поле ответов капитана
-        textView = findViewById(R.id.textView);
-        textView.setMovementMethod(new ScrollingMovementMethod());
+        textView = findViewById(R.id.massage_userText);
 
         //Пользовательское окно вывода информации
-        textViewUser = findViewById(R.id.textViewUser);
-        textViewUser.setMovementMethod(new ScrollingMovementMethod());
+        textViewUser = findViewById(R.id.massage_userText);
 
         //Отвечает за активацию микрофона
         micButton = findViewById(R.id.micButton);
@@ -96,6 +103,9 @@ public class MainActivity extends AppCompatActivity  {
         img = findViewById(R.id.img);
         img.setImageResource(R.drawable.animation_button_on);
         isAnimation = (AnimationDrawable)img.getDrawable();
+
+        activity_main = findViewById(R.id.main);
+//        displayAllMessages();
 
         speechRecognizer.setRecognitionListener(new RecognitionListener(){
             @Override
@@ -138,7 +148,9 @@ public class MainActivity extends AppCompatActivity  {
                     spokenText = matches.get(0);
 
                     String ask_text = "— " + spokenText;
-                    textViewUser.setText(ask_text);
+                    displayAllMessages(textViewUser,ask_text);
+//                    textViewUser.setText(ask_text);
+
 
                     Runnable runnable = new Runnable() {
                         public void run() {
@@ -305,5 +317,11 @@ public class MainActivity extends AppCompatActivity  {
         choiseButton2.setText(ButtonsText[1]);
         choiseButton3.setText(ButtonsText[2]);
         choiseButton4.setText(ButtonsText[3]);
+    };
+    private void displayAllMessages(BubbleTextView v, String txt){
+//        ListView listOfMessages = findViewById(R.id.list_of_massages);
+        v.setText(txt);
+
+
     };
 }

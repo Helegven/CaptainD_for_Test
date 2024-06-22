@@ -2,3 +2,9 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
 }
+//
+//repositories {
+//    jcenter()
+//    mavenCentral()
+//    maven { setUrl("https://jitpack.io") }
+//}
