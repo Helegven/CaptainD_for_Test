@@ -1,19 +1,15 @@
 package com.example.captainb;
 
-import java.util.Date;
-
 public class Message {
     public String userName;
     public String textMessage;
-    private long messageTime;
+    private boolean isMine;
 
-    public Message(){}
-    public Message(String userName, String textMessage){
-        this.userName = userName;
+    Message(boolean isMine, String textMessage){
+//        this.userName = userName;
         this.textMessage = textMessage;
-
-        this.messageTime = new Date().getTime();
-   }
+        this.isMine = isMine;
+    }
 
     public String getUserName() {
         return userName;
@@ -31,11 +27,11 @@ public class Message {
         this.textMessage = textMessage;
     }
 
-    public long getMessageTime() {
-        return messageTime;
+    public boolean isMine() {
+        return isMine;
     }
 
-    public void setMessageTime(long messageTime) {
-        this.messageTime = messageTime;
+    public void setMine(boolean mine) {
+        isMine = mine;
     }
 }

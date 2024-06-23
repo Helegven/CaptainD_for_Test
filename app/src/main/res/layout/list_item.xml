@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:id="@+id/massage_userText"
+        android:layout_alignParentEnd="false"
+        android:id="@+id/massage_captainText"
         android:textColor="@color/black"
         android:padding="10dp"
         android:layout_marginTop="5dp"
@@ -36,6 +37,27 @@
         app:arrowHeight="10dp"
         app:arrowPosition="10dp"
         app:arrowLocation="left"
+        app:bubbleColor="#5de3d1"
+        app:arrowCenter="false"
+        >
+    </com.github.library.bubbleview.BubbleTextView>
+
+    <com.github.library.bubbleview.BubbleTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/massage_userText"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:angle="4dp"
+        app:arrowWidth="8dp"
+        app:arrowHeight="10dp"
+        app:arrowPosition="25dp"
+        app:arrowLocation="right"
         app:bubbleColor="#5de3d1"
         app:arrowCenter="false"
         >

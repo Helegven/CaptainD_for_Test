@@ -1,70 +1,47 @@
 package com.example.captainb;
 
+import static android.Manifest.permission.RECORD_AUDIO;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import java.io.IOException;
-import static android.Manifest.permission.RECORD_AUDIO;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.ArrayList;
-import android.util.Log;
-import java.net.URL;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import android.view.View.OnClickListener;
-
-import com.github.library.bubbleview.BubbleTextView;
-
 public class MainActivity extends AppCompatActivity  {
 
     private SpeechRecognizer speechRecognizer;
     private Intent intentRecognizer;
-    private BubbleTextView textView;
-    private BubbleTextView textViewUser;
+    private ListView textView;
+    private ListView textViewUser;
+    public ListView list_of_massages;
     private static final String TAG = "MainActivity";
     private AnimationDrawable isAnimation;
     private ImageView img;
     private Button micButton;
     public Button choiseButton1, choiseButton2, choiseButton3, choiseButton4;
-    private ConstraintLayout activity_main;
+//    public MessageActivity messageActivity;
+
+    ArrayList<Message> messages = new ArrayList<Message>();
+    CustomAdapter customAdapter;
 
     // A boolean variable to keep track of the animation
     // Статус который отслеживает, работает анимация или нет.
@@ -83,10 +60,10 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         //Поле ответов капитана
-        textView = findViewById(R.id.massage_userText);
+        textView = findViewById(R.id.list_of_massages);
 
         //Пользовательское окно вывода информации
-        textViewUser = findViewById(R.id.massage_userText);
+        textViewUser = findViewById(R.id.list_of_massages);
 
         //Отвечает за активацию микрофона
         micButton = findViewById(R.id.micButton);
@@ -104,8 +81,13 @@ public class MainActivity extends AppCompatActivity  {
         img.setImageResource(R.drawable.animation_button_on);
         isAnimation = (AnimationDrawable)img.getDrawable();
 
-        activity_main = findViewById(R.id.main);
-//        displayAllMessages();
+        // Создаём адаптер
+//        fillData();
+        customAdapter = new CustomAdapter(this, messages);
+
+        // настраиваем список
+        ListView list_of_massages = (ListView) findViewById(R.id.list_of_massages);
+        list_of_massages.setAdapter(customAdapter);
 
         speechRecognizer.setRecognitionListener(new RecognitionListener(){
             @Override
@@ -146,12 +128,10 @@ public class MainActivity extends AppCompatActivity  {
 
                 if (matches != null){
                     spokenText = matches.get(0);
-
                     String ask_text = "— " + spokenText;
-                    displayAllMessages(textViewUser,ask_text);
 //                    textViewUser.setText(ask_text);
-
-
+//                    messageActivity.addNewMessage(new Message(true, ask_text));
+                    messages.add(new Message(true, ask_text));
                     Runnable runnable = new Runnable() {
                         public void run() {
                             try{
@@ -161,7 +141,10 @@ public class MainActivity extends AppCompatActivity  {
 
                             textView.post(new Runnable() {
                                 public void run() {
-                                    textView.setText(answer_text);
+//                                    messageActivity.addNewMessage(new Message(false, answer_text));
+//                                    messages.add(new Message("Product ", answer_text, false));
+                                    messages.add(new Message(false, answer_text));
+//                                    textView.setText(answer_text);
                                     micButton.setVisibility(View.VISIBLE);
                                 }
                             });
@@ -169,7 +152,8 @@ public class MainActivity extends AppCompatActivity  {
                             }catch (IOException ex){
                                 textView.post(new Runnable() {
                                     public void run() {
-                                        textView.setText("Ошибка IOException: " + ex.getMessage());
+//                                        messages.add(new Message("Product ", "Ошибка IOException: " + ex.getMessage(), false));
+//                                        textView.setText("Ошибка IOException: " + ex.getMessage());
                                         Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -181,7 +165,7 @@ public class MainActivity extends AppCompatActivity  {
                     thread.start();
                 }
                 else {
-                    textView.setText("Текст не распознан");
+//                    textView.setText("Текст не распознан");
                 }
             }
 
@@ -220,39 +204,37 @@ public class MainActivity extends AppCompatActivity  {
         onHelpClicked();
     }
 
-    public void sendMessage(View view) {
-        EditText editText = findViewById(R.id.editMessage);
-        String userMessage = String.valueOf(editText.getText());
-//        String uuid = uuidFactory.getUUID(this);
-        String uuid ="";
-
-        textViewUser.setText(userMessage + uuid);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                try{
+//    public void sendMessage(View view) {
+//        EditText editText = findViewById(R.id.editMessage);
+//        String userMessage = String.valueOf(editText.getText());
+////        String uuid = uuidFactory.getUUID(this);
+//        String uuid ="";
+//
+////        textViewUser.setText(userMessage + uuid);
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                try{
 //                    String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
-                    String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
-//                    String answer_text = userMessage + "\n" + uuid + "\n" + "— " + http_content;
-                    String answer_text = userMessage + "\n" + "— " + http_content;
-                    textView.post(new Runnable() {
-                        public void run() {
-                            textView.setText(answer_text);
-                        }
-                    });
-                }catch (IOException ex){
-                    textView.post(new Runnable() {
-                        public void run() {
-                            textView.setText("Ошибка IOException: " + ex.getMessage());
-                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        };
-
-        Thread thread = new Thread(runnable);
-        thread.start();
-    }
+//                    String answer_text = userMessage + "\n" + "— " + http_content;
+//                    textView.post(new Runnable() {
+//                        public void run() {
+////                            textView.setText(answer_text);
+//                        }
+//                    });
+//                }catch (IOException ex){
+//                    textView.post(new Runnable() {
+//                        public void run() {
+////                            textView.setText("Ошибка IOException: " + ex.getMessage());
+//                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }
+//        };
+//
+//        Thread thread = new Thread(runnable);
+//        thread.start();
+//    }
     public void onHelpClicked(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Правила игры")
@@ -280,7 +262,6 @@ public class MainActivity extends AppCompatActivity  {
         if (ConnectingAPI(but.getText()) == true){
             but.setVisibility(View.GONE);
         }
-
     };
     // Отправляет запрос в АПИ согласно текстовом полю - дальше следует добавить user_id
     public boolean ConnectingAPI(CharSequence str){
@@ -289,7 +270,10 @@ public class MainActivity extends AppCompatActivity  {
         if (str != null) {
             String spokenText = text;
             String ask_text = "— " + spokenText;
-            textViewUser.setText(ask_text);
+
+//            textViewUser.setText(ask_text);
+//            messageActivity.addNewMessage(new Message(true, ask_text));
+            messages.add(new Message(true, ask_text));
             Runnable runnable = new Runnable() {
                 public void run() {
                     try {
@@ -297,8 +281,14 @@ public class MainActivity extends AppCompatActivity  {
                         String answer_text = "— " + http_content;
                         textView.post(new Runnable() {
                             public void run() {
-                                textView.setText(answer_text);
+//                                messageActivity.addNewMessage(new Message(false, answer_text));
+                                messages.add(new Message(false, answer_text));
+
+//                              messages.add(new Message("Product ", answer_text, false));
+//                              textView.setText(answer_text);
+                                customAdapter.notifyDataSetChanged();
                             }
+
                         });
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -318,10 +308,63 @@ public class MainActivity extends AppCompatActivity  {
         choiseButton3.setText(ButtonsText[2]);
         choiseButton4.setText(ButtonsText[3]);
     };
-    private void displayAllMessages(BubbleTextView v, String txt){
-//        ListView listOfMessages = findViewById(R.id.list_of_massages);
-        v.setText(txt);
-
-
-    };
+//    public void sendMessage(View v) {
+//        String newMessage = this.text.getText().toString().trim();
+//        if (newMessage.length() > 0) {
+//            this.text.setText("");
+//            this.addNewMessage(new Message(newMessage, true));
+//            (new SendMessage((SendMessage)null)).execute(new Void[0]);
+//        }
+//
+//    }
+//
+//    void addNewMessage(Message m) {
+//        this.messages.add(m);
+//        this.customAdapter.notifyDataSetChanged();
+//        getListView();
+//    }
+//
+//    private class SendMessage extends AsyncTask <Void, String, String> {
+//        private SendMessage() {
+//        }
+//
+//        protected String doInBackground(Void... params) {
+//            try {
+//                Thread.sleep(2000L);
+//            } catch (InterruptedException var5) {
+//                var5.printStackTrace();
+//            }
+//            try {
+//                Thread.sleep(2000L);
+//            } catch (InterruptedException var4) {
+//                var4.printStackTrace();
+//            }
+//            try {
+//                Thread.sleep(3000L);
+//            } catch (InterruptedException var3) {
+//                var3.printStackTrace();
+//            }
+//
+//            return messages.toString();
+//        }
+//
+//        public void onProgressUpdate(String... v) {
+//            if (((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).isStatusMessage) {
+//                ((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).setMessage(v[0]);
+//                MainActivity.this.adapter.notifyDataSetChanged();
+//                MainActivity.this.getListView().setSelection(MainActivity.this.messages.size() - 1);
+//            } else {
+//                MainActivity.this.addNewMessage(new Message(true, v[0]));
+//            }
+//
+//        }
+//
+//        protected void onPostExecute(String text) {
+//            if (((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).isStatusMessage) {
+//                MainActivity.this.messages.remove(MainActivity.this.messages.size() - 1);
+//            }
+//
+//            MainActivity.this.addNewMessage(new Message(text, false));
+//        }
+//    }
 }
