@@ -15,6 +15,7 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -123,50 +124,9 @@ public class MainActivity extends AppCompatActivity  {
             public void onResults(Bundle bundle) {
                 ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String spokenText = "";
-                String user_id = "";
-//                uuidFactory.getUUID(this);
-
-                if (matches != null){
-                    spokenText = matches.get(0);
-                    String ask_text = "— " + spokenText;
-//                    textViewUser.setText(ask_text);
-//                    messageActivity.addNewMessage(new Message(true, ask_text));
-                    messages.add(new Message(true, ask_text));
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            try{
-
-                            String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", ask_text, user_id);
-                            String answer_text = ask_text + "\n" + "— " + http_content;
-
-                            textView.post(new Runnable() {
-                                public void run() {
-//                                    messageActivity.addNewMessage(new Message(false, answer_text));
-//                                    messages.add(new Message("Product ", answer_text, false));
-                                    messages.add(new Message(false, answer_text));
-//                                    textView.setText(answer_text);
-                                    micButton.setVisibility(View.VISIBLE);
-                                }
-                            });
-
-                            }catch (IOException ex){
-                                textView.post(new Runnable() {
-                                    public void run() {
-//                                        messages.add(new Message("Product ", "Ошибка IOException: " + ex.getMessage(), false));
-//                                        textView.setText("Ошибка IOException: " + ex.getMessage());
-                                        Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                }
-                else {
-//                    textView.setText("Текст не распознан");
-                }
+                spokenText = matches.get(0);
+//                String user_id = "";
+                ConnectingAPI(spokenText);
             }
 
             @Override
@@ -204,37 +164,11 @@ public class MainActivity extends AppCompatActivity  {
         onHelpClicked();
     }
 
-//    public void sendMessage(View view) {
-//        EditText editText = findViewById(R.id.editMessage);
-//        String userMessage = String.valueOf(editText.getText());
-////        String uuid = uuidFactory.getUUID(this);
-//        String uuid ="";
-//
-////        textViewUser.setText(userMessage + uuid);
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                try{
-//                    String http_content = GetData.getContent("https://algame9-vps.roborumba.com/hook_app/", userMessage, uuid);
-//                    String answer_text = userMessage + "\n" + "— " + http_content;
-//                    textView.post(new Runnable() {
-//                        public void run() {
-////                            textView.setText(answer_text);
-//                        }
-//                    });
-//                }catch (IOException ex){
-//                    textView.post(new Runnable() {
-//                        public void run() {
-////                            textView.setText("Ошибка IOException: " + ex.getMessage());
-//                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            }
-//        };
-//
-//        Thread thread = new Thread(runnable);
-//        thread.start();
-//    }
+    public void sendMessage(View view) {
+        EditText editText = findViewById(R.id.editMessage);
+        String userMessage = String.valueOf(editText.getText());
+        ConnectingAPI(userMessage);
+    }
     public void onHelpClicked(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Правила игры")
@@ -308,63 +242,4 @@ public class MainActivity extends AppCompatActivity  {
         choiseButton3.setText(ButtonsText[2]);
         choiseButton4.setText(ButtonsText[3]);
     };
-//    public void sendMessage(View v) {
-//        String newMessage = this.text.getText().toString().trim();
-//        if (newMessage.length() > 0) {
-//            this.text.setText("");
-//            this.addNewMessage(new Message(newMessage, true));
-//            (new SendMessage((SendMessage)null)).execute(new Void[0]);
-//        }
-//
-//    }
-//
-//    void addNewMessage(Message m) {
-//        this.messages.add(m);
-//        this.customAdapter.notifyDataSetChanged();
-//        getListView();
-//    }
-//
-//    private class SendMessage extends AsyncTask <Void, String, String> {
-//        private SendMessage() {
-//        }
-//
-//        protected String doInBackground(Void... params) {
-//            try {
-//                Thread.sleep(2000L);
-//            } catch (InterruptedException var5) {
-//                var5.printStackTrace();
-//            }
-//            try {
-//                Thread.sleep(2000L);
-//            } catch (InterruptedException var4) {
-//                var4.printStackTrace();
-//            }
-//            try {
-//                Thread.sleep(3000L);
-//            } catch (InterruptedException var3) {
-//                var3.printStackTrace();
-//            }
-//
-//            return messages.toString();
-//        }
-//
-//        public void onProgressUpdate(String... v) {
-//            if (((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).isStatusMessage) {
-//                ((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).setMessage(v[0]);
-//                MainActivity.this.adapter.notifyDataSetChanged();
-//                MainActivity.this.getListView().setSelection(MainActivity.this.messages.size() - 1);
-//            } else {
-//                MainActivity.this.addNewMessage(new Message(true, v[0]));
-//            }
-//
-//        }
-//
-//        protected void onPostExecute(String text) {
-//            if (((Message)MainActivity.this.messages.get(MainActivity.this.messages.size() - 1)).isStatusMessage) {
-//                MainActivity.this.messages.remove(MainActivity.this.messages.size() - 1);
-//            }
-//
-//            MainActivity.this.addNewMessage(new Message(text, false));
-//        }
-//    }
 }
